@@ -19,8 +19,8 @@ public class Authority {
     @Column(nullable = false)
     private Integer id;
 
-    @Column(name="authrority", nullable = false)
-    private String authrority;
+    @Column(name="authority", nullable = false)
+    private String authority;
 
 //    @ManyToMany(mappedBy = "authorities")
 //    private Set<User> users;

@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.util.AntPathMatcher;
@@ -21,9 +23,15 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(Customizer.withDefaults())
+        http.csrf().disable()
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers("/api/v1/home").permitAll()
@@ -32,17 +40,6 @@ public class SecurityConfig {
                 ).httpBasic(Customizer.withDefaults());
         return http.build();
     }
-//    @Bean
-//    public AuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//        authenticationProvider.setUserDetailsService(userDetailsService());
-//        return authenticationProvider;
-//    }
-
-//    @Bean
-//    public User userDetailsService() {
-//        return new UserDetailsServiceImpl(userService());
-//    }
 
 //    @Bean
 //    public UserDetailsService userDetailsService(){
